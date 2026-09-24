@@ -1,13 +1,12 @@
-from django.shortcuts import render
 from rest_framework import generics
-from .ArticleSerializer import ArticleSerializer,CommentSerializer
-from .models import Article,Comment
+from .ArticleSerializer import ArticleSerializer,CommentSerializer,MomentSerializer
+from .models import Article,Comment,Moment
 
-class ArticleListCreateView(generics.ListCreateAPIView):
-    queryset = Article.objects.all()
+class ArticleListView(generics.ListAPIView):
+    queryset = Article.objects.all().order_by('-create_time')
     serializer_class = ArticleSerializer
 
-class ArticleDetailView(generics.RetrieveUpdateDestroyAPIView):
+class ArticleDetailView(generics.RetrieveAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
@@ -21,4 +20,12 @@ class CommentListCreateView(generics.ListCreateAPIView):
         id = self.kwargs['pk']
         article = Article.objects.get(id=id)
         serializer.save(article=article)
+
+class MomentListView(generics.ListAPIView):
+    queryset = Moment.objects.all().order_by('-create_time')
+    serializer_class = MomentSerializer
+
+class MomentDetailView(generics.RetrieveAPIView):
+    queryset = Moment.objects.all()
+    serializer_class = MomentSerializer
 # Create your views here.

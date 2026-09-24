@@ -1,4 +1,5 @@
 from django.db import models
+from markdownx.models import MarkdownxField
 
 class Article(models.Model):
     title = models.CharField(max_length=20)
@@ -12,4 +13,8 @@ class Comment(models.Model):
     url = models.URLField(blank=True)
     create_time = models.DateTimeField(auto_now_add=True)
     is_approved = models.BooleanField(default=False)
+
+class Moment(models.Model):
+    content = MarkdownxField()
+    create_time = models.DateTimeField(auto_now_add=True)
 # Create your models here.
